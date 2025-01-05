@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:16
-    container_name: dmp_database
+    container_name: sso_db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
@@ -10,25 +10,25 @@ services:
       POSTGRES_PASSWORD: password
       TZ: Asia/Dhaka
     networks:
-      - dmp_network
+      - sso_network
     ports:
       - "5432:5432"
     restart: unless-stopped
 
   redis:
     build: ./redis
-    container_name: dmp_cache
+    container_name: sso_redis
     command: redis-server /usr/local/etc/redis/redis.conf
     environment:
         - TZ=Asia/Dhaka
     ports:
       - "6379:6379"
     networks:
-      - dmp_network
+      - sso_network
 
   backend:
     build: ./backend
-    container_name: dmp_backend
+    container_name: sso_backend
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/code
@@ -38,7 +38,7 @@ services:
       - db
       - redis
     networks:
-      - dmp_network
+      - sso_network
     environment:
       - DJANGO_SETTINGS_MODULE=project.settings
       - POSTGRES_DB=db
@@ -48,19 +48,19 @@ services:
 
 #  frontend:
 #    build: ./frontend
-#    container_name: dmp_frontend
+#    container_name: sso_frontend
 #    command: sh -c "npm install && npm start"
 #
 #    ports:
 #      - "3000"
 #    networks:
-#      - dmp_network
+#      - sso_network
 #    depends_on:
 #      - backend
 
   nginx:
     build: ./nginx
-    container_name: dmp_nginx
+    container_name: sso_nginx
     ports:
       - "80:80"
     depends_on:
@@ -69,7 +69,7 @@ services:
     environment:
         - TZ=Asia/Dhaka
     networks:
-      - dmp_network
+      - sso_network
 
 
 volumes:
@@ -77,9 +77,9 @@ volumes:
   redis_data:
 
 networks:
-  dmp_network:
+  sso_network:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 172.18.10.0/27
+        - subnet: 172.18.20.0/27
