@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "nested_inline",
     "corsheaders",
     "sitesetting",
+    "services",
 ]
 
 MIDDLEWARE = [

@@ -3,9 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils import timezone
 
-from annotation.models import Annotation
-
-
 class UserManager(BaseUserManager):
     def create_user(self, mobile_number, password=None, **extra_fields):
         if not mobile_number:
@@ -76,7 +73,6 @@ class UserGroup(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, blank=True, null=True, unique=True)
     description = models.TextField(blank=True, null=True)
-    annotation = models.ForeignKey(Annotation, on_delete=models.CASCADE, related_name='annotation_group', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
