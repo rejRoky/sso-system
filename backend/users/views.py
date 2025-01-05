@@ -286,6 +286,7 @@ class Profile(APIView):
         # UserActionLog.objects.create(user=request.user, action_type='UPDATE', action_description='User updated profile', ip_address=get_client_ip(request))
         return Response(serializer.data)
 
+
 class UserList(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -545,7 +546,6 @@ class DeleteUser(APIView):
         # Log user deletion
         logger.info(f"User {request.user.mobile_number} deleted user {mobile_number} at {now()}.")
 
-
         return Response({'message': 'User successfully deleted'}, status=status.HTTP_200_OK)
 
 
@@ -568,5 +568,6 @@ class TokenAuthentication(APIView):
         responses={200: 'Success'},
     )
     def get(self, request):
-        return Response({'message': 'Token is valid'}, status=status.HTTP_200_OK)
-
+        return Response({'message': 'Token is valid',
+                         'expires_in': request.auth.lifetime.total_seconds()
+                         }, status=status.HTTP_200_OK)

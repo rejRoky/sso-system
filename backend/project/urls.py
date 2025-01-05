@@ -11,7 +11,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # Define the schema view
 schema_view = get_schema_view(
     openapi.Info(
-        title="Data-Management-Platform-System API",
+        title="SSO API",
         default_version="v1",
     ),
     public=True,
