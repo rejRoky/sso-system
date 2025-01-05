@@ -1,0 +1,16 @@
+Django
+djangorestframework
+psycopg2-binary
+django-redis
+Pillow
+djangorestframework-simplejwt
+djangorestframework-simplejwt[blacklist]
+django-filter
+django-email-users
+drf-yasg
+django-ckeditor
+django-import-export
+django-nested-inline
+django-cors-headers
+requests
+pandas
