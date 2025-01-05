@@ -544,12 +544,7 @@ class DeleteUser(APIView):
 
         # Log user deletion
         logger.info(f"User {request.user.mobile_number} deleted user {mobile_number} at {now()}.")
-        # UserActionLog.objects.create(
-        #     user=request.user,
-        #     action_type='DELETE',
-        #     action_description=f'Deleted user {mobile_number}',
-        #     ip_address=get_client_ip(request)
-        # )
+
 
         return Response({'message': 'User successfully deleted'}, status=status.HTTP_200_OK)
 
@@ -566,7 +561,12 @@ class UserRoleList(viewsets.ViewSet):
         return Response(annotation_types)
 
 
-class UserGroupViewSet(viewsets.ModelViewSet):
-    queryset = UserGroup.objects.all()
-    serializer_class = UserGroupSerializer
+class TokenAuthentication(APIView):
     permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        responses={200: 'Success'},
+    )
+    def get(self, request):
+        return Response({'message': 'Token is valid'}, status=status.HTTP_200_OK)
+
