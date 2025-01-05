@@ -4,7 +4,7 @@ from .models import Service
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ['id', 'title', 'description', 'image', 'created_by', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'description', 'image', 'created_by', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at', 'created_by']
 
     def create(self, validated_data):
